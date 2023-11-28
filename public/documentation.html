@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Documentation</title>
+    </head>
+
+    <body>
+        
+        <div style="text-align: center;">
+            <h1>FLIXLINK Documentation</h1>
+        </div>
+        <div style="margin-inline: 3em;">
+            <h2 >WHAT IS FLEXLINK?</h2>
+            <p>FlexLink provides users with information about different
+                movies, directors, and genres. The server-side of the FlixLink application will ensure they have access to this information, that their requests can be processed, and that all necessary data can be stored.<br><br>
+
+                Users will be able to create an account with which to enter, maintain, and update their personal information, as well as create a customized list of their favorite movies.</p>
+        
+            <br>
+        </div>
+
+        
+        <div style="text-align: center;">        
+            <h1>FlexLink API Documentation</h1>
+        </div>
+        <div style="margin-inline: 3em;">
+            <p>This documentation describes the endpoints and their functionality for managing users and their favorite movies using the Flexlink API.
+                <br><br>
+
+            <!-- POST FUNCTIONS -->
+            <h2>Create (POST) Functions</h2>
+            <!-- ADD NEW USER -->
+            <h3>Add New User</h3>
+            <ul>
+                <li><span style="font-weight: bold;"> URL:</span> /users</li>
+                <li><span style="font-weight: bold;"> Method:</span> POST</li>
+                <li><span style="font-weight: bold;"> Description:</span> Adds a new user to the system.</li>
+                <li><span style="font-weight: bold;"> Request Body:</span></li>
+                    <ul>
+                        <li>Creates the following data categories for the user registry:
+                            <ul>
+                                <li>UserName [required]</li>
+                                <li>Password [required]</li>
+                                <li>Email [required]</li>
+                                <li>Birthday</li>
+                                <li>Favorite Movies</li>
+                                <li>User ID [automatically generated]</li>
+                            </ul>
+                            <br><br>SAMPLE:<br><br>
+                                {<br>
+                                "UserName": "sampleusername",<br>
+                                "Password": "samplepassword1234!",<br>
+                                "Email": "sample@gmail.com",<br>
+                                "Birthday": "01/01/2002"<br>
+                            }<br><br>
+                        </li>
+                    </ul>
+                
+                <li style="font-weight: bold;">Responses:</li>
+                    <ul>
+                        <li><span style="font-weight: bold;">201 (Created):</span> Displays the new user data to show it was successful.</li>
+                        <li><span style="font-weight: bold;">500 (Bad Request):</span> Error: ValidationError: Email: Path '[required path name]' is required.
+                        </li>
+                    </ul>
+            </ul>
+            <br>
+
+            <!-- ADD MOVIE TO FAVORITES -->
+            <h3>Add Movie to User Favorites</h3>
+            <ul>
+                <li><span style="font-weight: bold;"> URL:</span> /users/:UserName/movies/:MovieID</li>
+                <li><span style="font-weight: bold;"> Method:</span> POST</li>
+                <li><span style="font-weight: bold;"> Description:</span> Adds a movie to a user's list of favorite movies.</li>
+                <li><span style="font-weight: bold;"> URL Parameters:</span></li>
+                    <ul>
+                        <li><span style="font-weight: bold;">UserName (string)</span> - Username.</li>
+                        <li><span style="font-weight: bold;">MovieID (string)</span> - The object ID of the movie title to be added to favorites.</li>
+                    </ul>
+                
+                <li style="font-weight: bold;">Responses:</li>
+                    <ul>
+                        <li><span style="font-weight: bold;">200 (OK):</span> Returns the updated user data reflecting the added favorite movie.</li>
+                        <li><span style="font-weight: bold;">500 (Bad Request):</span> Movie fails to be added.
+                        </li>
+                    </ul>
+                    <br><br>
+            </ul>
+            
+
+            <!-- GET FUNCTIONS -->
+            <h2>Read (GET) Functions</h2>
+            <!-- GET ALL MOVIES -->
+            <h3>Get All Movie Data</h3>
+            <ul>
+                <li><span style="font-weight: bold;"> URL:</span> /movies</li>
+                <li><span style="font-weight: bold;"> Method:</span> GET</li>
+                <li><span style="font-weight: bold;"> Description:</span> Returns a list of all movies in the database.</li>                
+                <li style="font-weight: bold;">Response Body:</li>
+                <ul>
+                    <br><li>SAMPLE:<br><br>
+                        {<br>
+                        "Genre": "ObjectID of assigned Genre",<br>
+                        "Director": "ObjectID of assigned Director",<br>
+                        "_id": "[ObjectID of movie]",<br>
+                        "Title": "Title of Movie",<br>
+                        "Description": "Movie Description"<br>
+                        "Image URL": "Location of the representative image",<br>
+                        "Featured": "true/false"<br>
+                    }<br><br>
+                    </li>
+                </ul>
+            </ul>
+
+            <!-- GET DATA ON A SPECIFIC MOVIE BY NAME-->
+            <h3>Get Movie Data on a Specified Movie</h3>
+            <ul>
+                <li><span style="font-weight: bold;"> URL:</span> /movies/:Title</li>
+                <li><span style="font-weight: bold;"> Method:</span> GET</li>
+                <li><span style="font-weight: bold;"> Description:</span> Returns all data on the specified name of the the movie.</li>
+                <li><span style="font-weight: bold;"> URL Parameters:</span></li>
+                    <ul>
+                        <li><span style="font-weight: bold;">title (string)</span> - Title of the movie.</li>
+                    </ul>
+                
+                <li style="font-weight: bold;">Response Body:</li>
+                    <ul>
+                        
+                        <br><li>SAMPLE:<br><br>
+                            {<br>
+                            "Genre": "ObjectID of assigned Genre",<br>
+                            "Director": "ObjectID of assigned Director",<br>
+                            "_id": "[ObjectID of movie]",<br>
+                            "Title": "Title of Movie",<br>
+                            "Description": "Movie Description"<br>
+                            "Image URL": "Location of the representative image",<br>
+                            "Featured": "true/false"<br>
+                        }<br><br>
+                        </li>
+                    </ul>
+            </ul>
+
+            <!-- GET ALL GENRES -->
+            <h3>Get All Genre Data</h3>
+            <ul>
+                <li><span style="font-weight: bold;"> URL:</span> /genres</li>
+                <li><span style="font-weight: bold;"> Method:</span> GET</li>
+                <li><span style="font-weight: bold;"> Description:</span> Returns a list of all genres in the database.</li>                
+                <li style="font-weight: bold;">Response Body:</li>
+                <ul>
+                    <br><li>SAMPLE:<br><br>
+                        {<br>
+                        "_id": "ObjectID of genre",<br>
+                        "Name": "Title of Genre",<br>
+                        "Description": "Genre Description"<br>
+                    }<br><br>
+                    </li>
+                </ul>
+            </ul>
+
+            <!-- GET DATA ON A SPECIFIC GENRE -->
+            <h3>Get Data on a Specified Movie Genre</h3>
+            <ul>
+                <li><span style="font-weight: bold;"> URL:</span> /genres/:genreName</li>
+                <li><span style="font-weight: bold;"> Method:</span> GET</li>
+                <li><span style="font-weight: bold;"> Description:</span> Returns all data on the specified genre.</li>
+                <li><span style="font-weight: bold;"> URL Parameters:</span></li>
+                    <ul>
+                        <li><span style="font-weight: bold;">genreName (string)</span> - Name of the genre.</li>
+                    </ul>
+                
+                <li style="font-weight: bold;">Response Body:</li>
+                <ul>
+                    <li>{<br>
+                        "_id": "ObjectID of the genre",<br>
+                        "Name": "Genre Name",<br>
+                        "Description": "Genre Description"<br>
+                    }<br><br>
+                    </li>
+                </ul>
+            </ul>
+
+            <!-- GET ALL DIRECTORS -->
+            <h3>Get All Director Data</h3>
+            <ul>
+                <li><span style="font-weight: bold;"> URL:</span> /directors</li>
+                <li><span style="font-weight: bold;"> Method:</span> GET</li>
+                <li><span style="font-weight: bold;"> Description:</span> Returns a list of all directors in the database.</li>                
+                <li style="font-weight: bold;">Response Body:</li>
+                <ul>
+                    <br><li>SAMPLE:<br><br>
+                        {<br>
+                        "_id": "ObjectID of the director",<br>
+                        "Name": "Name of the director",<br>
+                        "Bio": "Biographical Description"<br>
+                        "Birth": "Director date of birth",<br>
+                        "Death": "Director date of death (if applicable)",<br>
+                    }<br><br>
+                    </li>
+                </ul>
+            </ul>
+
+            <!-- GET DATA ON A SPECIFIC DIRECTOR -->
+            <h3>Get Data on a Specified Movie Director</h3>
+            <ul>
+                <li><span style="font-weight: bold;"> URL:</span> /directors/:directorName</li>
+                <li><span style="font-weight: bold;"> Method:</span> GET</li>
+                <li><span style="font-weight: bold;"> Description:</span> Returns all data on the specified director.</li>
+                <li><span style="font-weight: bold;"> URL Parameters:</span></li>
+                    <ul>
+                        <li><span style="font-weight: bold;">directorName (string)</span> - Name of the director.</li>
+                    </ul>
+                
+                <li style="font-weight: bold;">Response Body:</li>
+                <ul>
+                    <li>{<br>
+                        "_id": "ObjectID of the director",<br>
+                        "Name": "Name of the director",<br>
+                        "Bio": "Biographical Description"<br>
+                        "Birth": "Director date of birth",<br>
+                        "Death": "Director date of death (if applicable)",<br>
+                    }<br><br>
+                    </li>
+                </ul>
+            </ul>
+
+
+
+            <!-- PUT FUNCTIONS -->
+            <h2>Update (PUT) Functions</h2>
+            <!-- UPDATE USERNAME -->
+            <h3>Update User Info (Username)</h3>
+            <ul>
+                <li><span style="font-weight: bold;"> URL:</span> /users/:username</li>
+                <li><span style="font-weight: bold;"> Method:</span> PUT</li>
+                <li><span style="font-weight: bold;"> Description:</span> Updates the data of an existing user.</li>
+                <li><span style="font-weight: bold;"> URL Parameters:</span></li>
+                    <ul>
+                        <li><span style="font-weight: bold;">UserName (string)</span> - Current UserName.</li>
+                    </ul>
+                <li><span style="font-weight: bold;"> Request Body:</span></li>
+                    <ul>
+                        <li>Updated user object data:
+                            <br><br>{<br>
+                                "UserName": "Updated Name",<br>
+                                "Password": "Updated Password",<br>
+                                "Email": "Updated Email",<br>
+                                "Birthday": "Updated birthday [01/01/2001]"<br>
+                            }<br><br>
+                        </li>
+                    </ul>
+                
+                <li style="font-weight: bold;">Responses:</li>
+                    <ul>
+                        <li><span style="font-weight: bold;">Send updated user data:</span></li>
+                            <ul>
+                                <li>{<br>
+                                    "id": "ObjectID of user",<br>
+                                    "UserName": "Updated username",<br>
+                                    "Password": "Updated password",<br>
+                                    "Email": "Updated email",<br>
+                                    "Birthday": "Updated birthdate",<br>
+                                    "FavoriteMovies": "Current favorites",<br>
+                                }<br><br>
+                                </li>
+                            </ul>
+                    </ul>
+                    <ul>
+                        <li><span style="font-weight: bold;">500 (Bad Request):</span> Returns a server error.
+                        </li>
+                    </ul>
+            </ul>
+            <br>
+
+
+            <!-- DELETE FUNCTIONS -->
+            <h2>Delete (DELETE) Functions</h2>
+            <!-- DELETE USER -->
+            <h3>Delete User Account</h3>
+            <ul>
+                <li><span style="font-weight: bold;"> URL:</span> /users/:UserName</li>
+                <li><span style="font-weight: bold;"> Method:</span> DELETE</li>
+                <li><span style="font-weight: bold;"> Description:</span> Deletes a user from the database.</li>
+                <li><span style="font-weight: bold;"> URL Parameters:</span></li>
+                    <ul>
+                        <li><span style="font-weight: bold;">UserName (string)</span> - Username.</li>
+                    </ul>
+                
+                <li style="font-weight: bold;">Responses:</li>
+                    <ul>
+                        <li><span style="font-weight: bold;">200 (OK):</span> [Username] was deleted.</li>
+                        <li><span style="font-weight: bold;">400 (Bad Request):</span> [Username] was not found.
+                        </li>
+                        <li><span style="font-weight: bold;">500 (Bad Request):</span> Returns a server error.
+                        </li>
+                    </ul>
+            </ul>
+            <br>
+           
+            <h3>Delete Movie from Favorites</h3>
+            <ul>
+                <li><span style="font-weight: bold;"> URL:</span> /users/:UserName/movies/:MovieID</li>
+                <li><span style="font-weight: bold;"> Method:</span> DELETE</li>
+                <li><span style="font-weight: bold;"> Description:</span> Removes a movie from a user's list of favorite movies.</li>
+                <li><span style="font-weight: bold;"> URL Parameters:</span></li>
+                    <ul>
+                        <li><span style="font-weight: bold;">UserName (string)</span> - Username.</li>
+                        <li><span style="font-weight: bold;">MovieID (string)</span> - ObjectID of Movie to be removed from favorites.</li>
+                    </ul>
+                
+                <li style="font-weight: bold;">Responses:</li>
+                    <ul>
+                        <li><span style="font-weight: bold;">Returns updated user data.</span></li>
+                    </ul>
+                    <ul>
+                        <li><span style="font-weight: bold;">500 (Bad Request):</span> Returns a server error.
+                        </li>
+                    </ul>
+            </ul>
+            <br>
+            
+            </p>
+
+        </div>
+
+        
+    </body>
+
+
+</html>
