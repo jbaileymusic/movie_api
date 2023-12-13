@@ -90,7 +90,7 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), as
 
 
 // GET All Movies
-app.get('/movies', async (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.find()
         .then((movies) => {
             res.status(201).json(movies);
@@ -102,7 +102,7 @@ app.get('/movies', async (req, res) => {
 });
 
 // GET Movie Data on a Specific Title
-app.get('/movies/:Title', async (req, res) => {
+app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.findOne({ Title: req.params.Title})
         .then((movie) => {
             res.json(movie);
