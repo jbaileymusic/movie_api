@@ -48,7 +48,7 @@ const passport = require('passport');
 require('./passport');
 
 app.use(bodyParser.json());
-app.use(morgan('common'));
+app.use(morgan('combined'));
 
 //Load Documentation page
 app.use(express.static("public"));
