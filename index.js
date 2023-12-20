@@ -91,9 +91,29 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), as
 
 // GET All Movies
 app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
-    await Movies.find()
+    await Movies.aggregate([
+        {
+          '$lookup': {
+            'from': 'directors', 
+            'localField': 'Director', 
+            'foreignField': '_id', 
+            'as': 'Director'
+          }
+        }, {
+          '$lookup': {
+            'from': 'genres', 
+            'localField': 'Genre', 
+            'foreignField': '_id', 
+            'as': 'Genre'
+          }
+        }
+      ])
         .then((movies) => {
-            res.status(201).json(movies);
+            res.status(201).json(movies.map(movie => {
+                movie.Director = movie.Director[0] 
+                movie.Genre = movie.Genre[0]
+                return movie
+            }));
         })
         .catch((err) => {
             console.error(err);
