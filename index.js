@@ -262,7 +262,6 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }),
     [  
         check('Username', 'Username is required').isLength({min: 5}),
         check('Username', 'Username contains non-alphanumeric characters and is not allowed.').isAlphanumeric(),
-        check('Password', 'Password is required.').not().isEmpty(),
         check('Email', 'Please use a valid email address.').isEmail()
     ], async (req, res) => {
     
@@ -278,17 +277,18 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }),
         return res.status(422).json({ errors: errors.array() });
     }  //End of validation error check
     
-    //Hash the updated user password
-    let hashedPassword = Users.hashPassword(req.body.Password);
+    const updatedUser = {
+        Username: req.body.Username,
+        Email: req.body.Email,
+        Birthday: req.body.Birthday
+    }
 
-    await Users.findOneAndUpdate({ Username: req.params.Username }, { $set:
-        {
-            Username: req.body.Username,
-            Password: hashedPassword,
-            Email: req.body.Email,
-            Birthday: req.body.Birthday
-        }
-    },
+    //Hash the updated user password
+    if (req.body.Password) {
+        updatedUser.Password = Users.hashPassword(req.body.Password);
+    }
+
+    await Users.findOneAndUpdate({ Username: req.params.Username }, { $set: updatedUser },
         { new: true }) 
         .then((updatedUser) => {
             res.json(updatedUser);
