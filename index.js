@@ -22,12 +22,8 @@ const express = require('express');
 const { check, validationResult } = require('express-validator');
 
 const cors = require('cors');
-app.use(cors());
-
-
-
-//SAMPLE TEMPLATE FOR ALLOWING RESTRICTED ACCESS TO CERTAIN DOMAINS - LATER USE IF NEEDED
-/* let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+//CORS POLICY FOR ALLOWING RESTRICTED ACCESS TO CERTAIN DOMAINS
+let allowedOrigins = ['http://localhost:8080', 'https://flixlink.netlify.app'];
 
 app.use(cors({
     origin: (origin, callback) => {
@@ -38,7 +34,10 @@ app.use(cors({
         }
         return callback(null, true);
     }
-})); */
+}));
+/* CORS POLICY FOR UNRESTRICTED ACCESS - LATER USE IF NEEDED
+app.use(cors()); 
+*/
 
 
 
